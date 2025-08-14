@@ -8,3 +8,19 @@ body{margin:0;font-family:sans-serif;background:#e7f0ff;color:#0c2a4d}
 .btn-gold{background:gold;border:none;padding:10px 20px;border-radius:20px;cursor:pointer}
 .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
 .gallery img{width:100%;height:100%;object-fit:cover;border-radius:10px}
+
+
+/* Correção para imagens no mobile */
+#galeria {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+#galeria img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
