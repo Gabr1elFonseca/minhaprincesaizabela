@@ -70,43 +70,31 @@ function makeQR(){
 window.onload = makeQR;
 
 // -----------------------------
-// GALERIA COM CLOUDINARY - LISTA POR TAG (PÚBLICA)
+// GALERIA COM CLOUDINARY POR TAG
 // -----------------------------
 const gallery = document.getElementById('gallery');
 const CLOUD_NAME = 'ddid5uuj4';
 const TAG_NAME = 'galeria';
-const LIST_URL = `https://res.cloudinary.com/${CLOUD_NAME}/image/list/${TAG_NAME}.json`;
 
-async function carregarGaleriaPorTagList(){
+async function carregarGaleriaPorTag(){
     try {
-        const resp = await fetch(LIST_URL, { cache: 'no-store' });
-        if(!resp.ok) throw new Error(`HTTP ${resp.status}`);
-        const data = await resp.json();
+        const url = `https://res.cloudinary.com/${CLOUD_NAME}/image/search?q=tags:${TAG_NAME}`;
+        const resposta = await fetch(url);
+        if(!resposta.ok) throw new Error("Erro ao buscar imagens");
 
-        gallery.innerHTML = "";
+        const dados = await resposta.json();
 
-        if(!data.resources || data.resources.length === 0){
-            gallery.innerHTML = `<p>Nenhuma imagem com a tag "${TAG_NAME}" foi encontrada.</p>`;
-            return;
-        }
-
-        // opcional: ordenar mais recentes primeiro
-        data.resources.sort((a,b) => (b.version||0) - (a.version||0));
-
-        data.resources.forEach(item => {
-            const src = item.secure_url || `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${item.public_id}.${item.format}`;
-            const img = document.createElement('img');
-            img.loading = 'lazy';
-            img.decoding = 'async';
-            img.src = src;
-            img.alt = item.public_id.split('/').pop();
-            gallery.appendChild(img);
+        gallery.innerHTML = ""; // limpar antes
+        dados.resources.forEach(img => {
+            const el = document.createElement('img');
+            el.src = img.secure_url;
+            gallery.appendChild(el);
         });
 
     } catch (e) {
         console.error("Erro ao carregar galeria:", e);
-        gallery.innerHTML = `<p>Não foi possível carregar a galeria. Verifique no Cloudinary se a opção "Resource list" NÃO está marcada em Security e se as imagens têm a tag "${TAG_NAME}".</p>`;
+        gallery.innerHTML = "<p>Não foi possível carregar a galeria.</p>";
     }
 }
 
-carregarGaleriaPorTagList();
+carregarGaleriaPorTag();
