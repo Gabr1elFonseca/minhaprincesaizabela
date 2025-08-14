@@ -70,16 +70,15 @@ function makeQR(){
 window.onload = makeQR;
 
 // -----------------------------
-// GALERIA COM CLOUDINARY
+// GALERIA COM CLOUDINARY POR TAG
 // -----------------------------
 const gallery = document.getElementById('gallery');
 const CLOUD_NAME = 'ddid5uuj4';
-const FOLDER_NAME = 'galeria';
+const TAG_NAME = 'galeria';
 
-async function carregarGaleriaCloudinary(){
+async function carregarGaleriaPorTag(){
     try {
-        // URL especial do Cloudinary que retorna lista de imagens em JSON
-        const url = `https://res.cloudinary.com/${CLOUD_NAME}/image/list/${FOLDER_NAME}.json`;
+        const url = `https://res.cloudinary.com/${CLOUD_NAME}/image/search?q=tags:${TAG_NAME}`;
         const resposta = await fetch(url);
         if(!resposta.ok) throw new Error("Erro ao buscar imagens");
 
@@ -88,7 +87,7 @@ async function carregarGaleriaCloudinary(){
         gallery.innerHTML = ""; // limpar antes
         dados.resources.forEach(img => {
             const el = document.createElement('img');
-            el.src = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${img.public_id}.${img.format}`;
+            el.src = img.secure_url;
             gallery.appendChild(el);
         });
 
@@ -98,4 +97,4 @@ async function carregarGaleriaCloudinary(){
     }
 }
 
-carregarGaleriaCloudinary();
+carregarGaleriaPorTag();
