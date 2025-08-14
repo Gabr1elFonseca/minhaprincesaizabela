@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gabriel & Izabela — Nosso Amor</title>
+  <meta name="description" content="Portal romântico com contador de tempo de namoro, galeria de fotos e música do casal." />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script defer src="./script.js"></script>
+</head>
+<body>
+  <div class="frame">
+    <header class="hero">
+      <div class="title-wrap">
+        <h1 class="title">Gabriel &amp; Izabela</h1>
+        <p class="subtitle">Desde 10/10/2024</p>
+      </div>
+      <div class="player-card">
+        <button id="playPauseBtn" class="btn-gold">&#9658; Tocar</button>
+        <div id="player" class="yt-player"></div>
+        <small>Música: "Sentimentos São" — A Bela e a Fera</small>
+      </div>
+    </header>
+    <section class="counter-section">
+      <h2 class="section-title">Nosso tempo juntos</h2>
+      <div id="counter" class="counter-grid">
+        <div class="unit"><span id="years">0</span><label>Anos</label></div>
+        <div class="unit"><span id="months">0</span><label>Meses</label></div>
+        <div class="unit"><span id="days">0</span><label>Dias</label></div>
+        <div class="unit"><span id="hours">0</span><label>Horas</label></div>
+        <div class="unit"><span id="minutes">0</span><label>Minutos</label></div>
+      </div>
+      <div class="qrcode-wrap">
+        <div id="qrcode"></div>
+      </div>
+    </section>
+    <section class="message-section">
+      <h2 class="section-title">Para você, meu amor</h2>
+      <p class="love-text">
+        Meu amor espero que nosso amor um pelo outro só aumente , que possamos nos compreender melhor e nos completarmos cada vez mais!
+        Minha princesa, meu amor, minha mulher eu te amo muito, você foi um anjo enviado por Deus para mim, obrigado pela companhia meu amorzão!
+      </p>
+    </section>
+    <section class="gallery-section">
+      <h2 class="section-title">Nossa galeria</h2>
+      <div class="uploader">
+        <input id="fileInput" type="file" accept="image/*" multiple />
+        <button id="clearGallery" class="btn-text">Limpar galeria</button>
+      </div>
+      <div id="gallery" class="gallery"></div>
+    </section>
+    <footer class="footer">
+      <small>Feito com amor — Gabriel & Izabela</small>
+    </footer>
+  </div>
+</body>
+</html>
