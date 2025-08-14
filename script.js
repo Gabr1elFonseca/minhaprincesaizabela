@@ -110,3 +110,24 @@ async function carregarGaleriaPorTagList(){
 }
 
 carregarGaleriaPorTagList();
+
+// -----------------------------
+// LIGHTBOX SIMPLES
+// -----------------------------
+document.addEventListener("click", function(e){
+    if(e.target.closest("#gallery img")){
+        const src = e.target.src;
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImg = lightbox.querySelector("img");
+        lightboxImg.src = src;
+        lightbox.classList.add("show");
+    }
+    if(e.target.id === "lightbox" || e.target.closest("#lightbox") && e.target.tagName !== "IMG"){
+        document.getElementById("lightbox").classList.remove("show");
+    }
+});
+document.addEventListener("keyup", function(e){
+    if(e.key === "Escape"){
+        document.getElementById("lightbox").classList.remove("show");
+    }
+});
