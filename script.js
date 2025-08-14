@@ -1,165 +1,112 @@
-
-// ==============================
-// Configurações principais
-// ==============================
 const START_DATE = new Date('2024-10-10T00:00:00');
 const YT_VIDEO_ID = 'hv2lCmRXvtY';
 
-// Cloudinary (com fallbacks de caminho e extensão)
-const CLOUD_NAME = "ddid5uuj4";
-const FOLDER_NAME = "galeria";
-const IDS = Array.from({length: 19}, (_, i) => `amor${i+1}`);
-
-// ==============================
-// Música - YouTube Iframe API
-// ==============================
+// Carregar API do YouTube
 (function(){
-  const tag = document.createElement('script');
-  tag.src = 'https://www.youtube.com/iframe_api';
-  document.body.appendChild(tag);
+    const tag=document.createElement('script');
+    tag.src='https://www.youtube.com/iframe_api';
+    document.body.appendChild(tag);
 })();
 
 let player;
-let isPlayerReady = false;
-
 window.onYouTubeIframeAPIReady = function(){
-  player = new YT.Player('player', {
-    height: '180',
-    width: '320',
-    videoId: YT_VIDEO_ID,
-    playerVars: { playsinline: 1, rel: 0 },
-    events: {
-      onReady: function(){ isPlayerReady = true; },
-      onStateChange: function(e){
-        const btn = document.getElementById('playPauseBtn');
-        if(!btn) return;
-        if(e.data === YT.PlayerState.PLAYING){
-          btn.innerHTML = '&#10074;&#10074; Pausar';
-        } else if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED){
-          btn.innerHTML = '&#9658; Tocar';
-        }
-      }
-    }
-  });
+    player = new YT.Player('player', {
+        height:'180',
+        width:'320',
+        videoId:YT_VIDEO_ID,
+        playerVars:{rel:0,modestbranding:1}
+    });
 };
 
-document.addEventListener('click', function(e){
-  const btn = e.target.closest('#playPauseBtn');
-  if(!btn) return;
-  if(!isPlayerReady || !player) return;
-  const state = player.getPlayerState ? player.getPlayerState() : null;
-  if(state === YT.PlayerState.PLAYING){ player.pauseVideo(); }
-  else { player.playVideo(); }
-});
-
-// ==============================
-// Cronômetro (anos, meses, dias, horas, minutos)
-// ==============================
-const yearsEl = document.getElementById('years');
-const monthsEl = document.getElementById('months');
-const daysEl = document.getElementById('days');
-const hoursEl = document.getElementById('hours');
-const minutesEl = document.getElementById('minutes');
-
-function daysInMonth(year, monthIndex){
-  return new Date(year, monthIndex + 1, 0).getDate();
-}
-
-function diff(from, to){
-  let y = to.getFullYear() - from.getFullYear();
-  let m = to.getMonth() - from.getMonth();
-  let d = to.getDate() - from.getDate();
-  let h = to.getHours() - from.getHours();
-  let min = to.getMinutes() - from.getMinutes();
-
-  if(min < 0){ min += 60; h--; }
-  if(h < 0){ h += 24; d--; }
-  if(d < 0){
-    const prevMonthIndex = (to.getMonth() - 1 + 12) % 12;
-    const yearForPrevMonth = prevMonthIndex === 11 ? to.getFullYear() - 1 : to.getFullYear();
-    d += daysInMonth(yearForPrevMonth, prevMonthIndex);
-    m--;
-  }
-  if(m < 0){ m += 12; y--; }
-  return { y, m, d, h, min };
-}
-
-function renderCounter(){
-  const now = new Date();
-  const t = diff(START_DATE, now);
-  if(yearsEl) yearsEl.textContent = t.y;
-  if(monthsEl) monthsEl.textContent = t.m;
-  if(daysEl) daysEl.textContent = t.d;
-  if(hoursEl) hoursEl.textContent = t.h;
-  if(minutesEl) minutesEl.textContent = t.min;
-}
-
-// ==============================
-// QR Code
-// ==============================
-function makeQR(){
-  const el = document.getElementById('qrcode');
-  if(!el || typeof QRCode === "undefined") return;
-  new QRCode(el, {
-    text: window.location.href,
-    width: 128,
-    height: 128,
-    colorDark: '#0c2a4d',
-    colorLight: '#ffffff'
-  });
-}
-
-// ==============================
-// Galeria com fallbacks
-// ==============================
-function buildCandidates(id){
-  // Tenta variações de URL para cobrir: com/sem pasta, com/sem extensão .jpg/.png
-  const base = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload`;
-  return [
-    `${base}/f_auto,q_auto/${FOLDER_NAME}/${id}`,       // com pasta, sem extensão
-    `${base}/f_auto,q_auto/${FOLDER_NAME}/${id}.jpg`,  // com pasta, .jpg
-    `${base}/f_auto,q_auto/${FOLDER_NAME}/${id}.png`,  // com pasta, .png
-    `${base}/f_auto,q_auto/${id}`,                     // sem pasta, sem extensão
-    `${base}/f_auto,q_auto/${id}.jpg`,                 // sem pasta, .jpg
-    `${base}/f_auto,q_auto/${id}.png`                  // sem pasta, .png
-  ];
-}
-
-function carregarGaleria(){
-  const container = document.getElementById('gallery');
-  if(!container) return;
-  container.innerHTML = "";
-
-  IDS.forEach(id => {
-    const img = document.createElement('img');
-    img.alt = id;
-    img.loading = 'lazy';
-    img.decoding = 'async';
-
-    const candidates = buildCandidates(id);
-    let idx = 0;
-
-    function tryNext(){
-      if(idx >= candidates.length){
-        // falhou todas — remove imagem
-        img.remove();
-        return;
-      }
-      img.src = candidates[idx++];
+// Botão Play/Pause
+document.getElementById('playPauseBtn').addEventListener('click',()=>{
+    if(!player) return;
+    const s = player.getPlayerState();
+    if(s === 1){
+        player.pauseVideo();
+        playPauseBtn.innerHTML='&#9658; Tocar';
+    } else {
+        player.playVideo();
+        playPauseBtn.innerHTML='&#10073;&#10073; Pausar';
     }
+});
 
-    img.onerror = tryNext;
-    tryNext();
-    container.appendChild(img);
-  });
+// Contador de tempo
+function diff(from,to){
+    let y=to.getFullYear()-from.getFullYear(),
+        m=to.getMonth()-from.getMonth(),
+        d=to.getDate()-from.getDate(),
+        h=to.getHours()-from.getHours(),
+        min=to.getMinutes()-from.getMinutes();
+    if(min<0){min+=60;h--;}
+    if(h<0){h+=24;d--;}
+    if(d<0){m--;d+=new Date(to.getFullYear(),to.getMonth(),0).getDate();}
+    if(m<0){m+=12;y--;}
+    return {y,m,d,h,min};
 }
 
-// ==============================
-// Boot
-// ==============================
-document.addEventListener('DOMContentLoaded', function(){
-  renderCounter();
-  setInterval(renderCounter, 30000);
-  makeQR();
-  carregarGaleria();
-});
+function render(){
+    const now = new Date();
+    const t = diff(START_DATE, now);
+    years.textContent = t.y;
+    months.textContent = t.m;
+    days.textContent = t.d;
+    hours.textContent = t.h;
+    minutes.textContent = t.min;
+}
+render();
+setInterval(render, 30000);
+
+// QRCode
+function makeQR(){
+    new QRCode(document.getElementById('qrcode'), {
+        text:window.location.href,
+        width:128,
+        height:128,
+        colorDark:'#0c2a4d',
+        colorLight:'#ffffff'
+    });
+}
+window.onload = makeQR;
+
+// -----------------------------
+// GALERIA COM CLOUDINARY - LISTA POR TAG (PÚBLICA)
+// -----------------------------
+const gallery = document.getElementById('gallery');
+const CLOUD_NAME = 'ddid5uuj4';
+const TAG_NAME = 'galeria';
+const LIST_URL = `https://res.cloudinary.com/${CLOUD_NAME}/image/list/${TAG_NAME}.json`;
+
+async function carregarGaleriaPorTagList(){
+    try {
+        const resp = await fetch(LIST_URL, { cache: 'no-store' });
+        if(!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const data = await resp.json();
+
+        gallery.innerHTML = "";
+
+        if(!data.resources || data.resources.length === 0){
+            gallery.innerHTML = `<p>Nenhuma imagem com a tag "${TAG_NAME}" foi encontrada.</p>`;
+            return;
+        }
+
+        // opcional: ordenar mais recentes primeiro
+        data.resources.sort((a,b) => (b.version||0) - (a.version||0));
+
+        data.resources.forEach(item => {
+            const src = item.secure_url || `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${item.public_id}.${item.format}`;
+            const img = document.createElement('img');
+            img.loading = 'lazy';
+            img.decoding = 'async';
+            img.src = src;
+            img.alt = item.public_id.split('/').pop();
+            gallery.appendChild(img);
+        });
+
+    } catch (e) {
+        console.error("Erro ao carregar galeria:", e);
+        gallery.innerHTML = `<p>Não foi possível carregar a galeria. Verifique no Cloudinary se a opção "Resource list" NÃO está marcada em Security e se as imagens têm a tag "${TAG_NAME}".</p>`;
+    }
+}
+
+carregarGaleriaPorTagList();
