@@ -70,32 +70,31 @@ function makeQR(){
 window.onload = makeQR;
 
 // -----------------------------
-// GALERIA COM CLOUDINARY via JSONP
+// GALERIA COM CLOUDINARY POR TAG
 // -----------------------------
 const gallery = document.getElementById('gallery');
 const CLOUD_NAME = 'ddid5uuj4';
 const TAG_NAME = 'galeria';
 
-function mostrarGaleria(data){
-    gallery.innerHTML = "";
-    if(!data.resources || data.resources.length === 0){
-        gallery.innerHTML = `<p>Nenhuma imagem encontrada.</p>`;
-        return;
+async function carregarGaleriaPorTag(){
+    try {
+        const url = `https://res.cloudinary.com/${CLOUD_NAME}/image/search?q=tags:${TAG_NAME}`;
+        const resposta = await fetch(url);
+        if(!resposta.ok) throw new Error("Erro ao buscar imagens");
+
+        const dados = await resposta.json();
+
+        gallery.innerHTML = ""; // limpar antes
+        dados.resources.forEach(img => {
+            const el = document.createElement('img');
+            el.src = img.secure_url;
+            gallery.appendChild(el);
+        });
+
+    } catch (e) {
+        console.error("Erro ao carregar galeria:", e);
+        gallery.innerHTML = "<p>Não foi possível carregar a galeria.</p>";
     }
-    data.resources.sort((a,b) => (b.version || 0) - (a.version || 0));
-    data.resources.forEach(item => {
-        const src = item.secure_url || `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${item.public_id}.${item.format}`;
-        const img = document.createElement('img');
-        img.loading = 'lazy';
-        img.decoding = 'async';
-        img.src = src;
-        img.alt = item.public_id.split('/').pop();
-        gallery.appendChild(img);
-    });
 }
 
-(function(){
-    const script = document.createElement('script');
-    script.src = `https://res.cloudinary.com/${CLOUD_NAME}/image/list/${TAG_NAME}.json?callback=mostrarGaleria`;
-    document.body.appendChild(script);
-})();
+carregarGaleriaPorTag();
