@@ -76,17 +76,13 @@ const gallery = document.getElementById('gallery');
 const CLOUD_NAME = 'ddid5uuj4';
 const TAG_NAME = 'galeria';
 
-// Função chamada pelo JSONP
 function mostrarGaleria(data){
     gallery.innerHTML = "";
     if(!data.resources || data.resources.length === 0){
         gallery.innerHTML = `<p>Nenhuma imagem encontrada.</p>`;
         return;
     }
-
-    // Ordena mais recentes primeiro
     data.resources.sort((a,b) => (b.version || 0) - (a.version || 0));
-
     data.resources.forEach(item => {
         const src = item.secure_url || `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${item.public_id}.${item.format}`;
         const img = document.createElement('img');
@@ -98,7 +94,6 @@ function mostrarGaleria(data){
     });
 }
 
-// Carregar o JSONP
 (function(){
     const script = document.createElement('script');
     script.src = `https://res.cloudinary.com/${CLOUD_NAME}/image/list/${TAG_NAME}.json?callback=mostrarGaleria`;
