@@ -1,44 +1,43 @@
 
-/* Reset básico */
 body {
   margin: 0;
   font-family: 'Great Vibes', cursive, sans-serif;
-  background: linear-gradient(to bottom, #ffe6f0, #e6faff);
-  color: #4a2c2a;
+  background-color: #024e79;
+  background-image: url('https://www.transparenttextures.com/patterns/parchment.png');
+  background-repeat: repeat;
+  background-size: auto;
+  color: #ffc764;
   text-align: center;
 }
 
-/* Container principal */
 .frame {
   max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
 }
 
-/* Cabeçalho */
 .hero {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(2, 78, 121, 0.6);
   border-radius: 20px;
   padding: 20px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
 }
 .title {
   font-size: 60px;
   margin-bottom: 10px;
-  color: #d63384;
+  color: #ffc764;
 }
 .subtitle {
   font-size: 22px;
-  color: #555;
+  color: #ffc764;
 }
 
-/* Player */
 .player-card {
   margin-top: 20px;
 }
 .btn-gold {
-  background: #ff8fab;
-  color: white;
+  background: #ffc764;
+  color: #024e79;
   border: none;
   padding: 10px 20px;
   border-radius: 25px;
@@ -46,13 +45,12 @@ body {
   font-size: 16px;
 }
 .btn-gold:hover {
-  background: #ff4d6d;
+  background: #e6b64d;
 }
 
-/* Contador */
 .counter-section {
   margin-top: 30px;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(2, 78, 121, 0.6);
   border-radius: 20px;
   padding: 20px;
 }
@@ -65,32 +63,32 @@ body {
   text-align: center;
   padding: 15px;
   border-radius: 15px;
-  background: #ffe5ec;
+  background: rgba(255, 199, 100, 0.1);
   margin: 5px;
   flex: 1 1 100px;
+  border: 1px solid #ffc764;
 }
 .unit span {
   font-size: 28px;
   font-weight: bold;
-  color: #c9184a;
+  color: #ffc764;
 }
 
-/* Mensagem */
 .message-section {
   margin-top: 30px;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(2, 78, 121, 0.6);
   border-radius: 20px;
   padding: 20px;
 }
 .love-text {
   font-size: 18px;
   line-height: 1.6;
+  color: #ffc764;
 }
 
-/* Galeria */
 .gallery-section {
   margin-top: 30px;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(2, 78, 121, 0.6);
   border-radius: 20px;
   padding: 20px;
 }
@@ -105,19 +103,19 @@ body {
   object-fit: cover;
   border-radius: 10px;
   transition: transform 0.3s ease;
+  border: 2px solid #ffc764;
 }
 .gallery img:hover {
   transform: scale(1.05);
 }
 
-/* Rodapé */
 .footer {
   margin-top: 20px;
   padding: 10px;
   font-size: 14px;
+  color: #ffc764;
 }
 
-/* Lightbox */
 .lightbox {
   display: none;
   position: fixed;
@@ -134,7 +132,7 @@ body {
   max-width: 90%;
   max-height: 90%;
   border-radius: 10px;
-  box-shadow: 0 0 15px rgba(255,255,255,0.5);
+  box-shadow: 0 0 15px rgba(255,199,100,0.8);
 }
 .lightbox.show {
   display: flex;
