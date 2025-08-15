@@ -1,13 +1,121 @@
-body{margin:0;font-family:sans-serif;background:#e7f0ff;color:#0c2a4d}
-.frame{max-width:900px;margin:20px auto;padding:20px;border:3px solid gold;border-radius:20px;background:white}
-.title{font-family:'Edwardian Script ITC','Great Vibes',cursive;font-size:48px;color:#0c2a4d}
-.section-title{font-family:'Edwardian Script ITC','Great Vibes',cursive;font-size:32px;margin-top:20px}
-.counter-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
-.unit{text-align:center;border:1px solid gold;border-radius:10px;padding:10px;background:#fff8e1}
-.unit span{font-size:24px;font-weight:bold}
-.btn-gold{background:gold;border:none;padding:10px 20px;border-radius:20px;cursor:pointer}
-.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
-.gallery img{width:100%;height:100%;object-fit:cover;border-radius:10px}
+
+/* Reset básico */
+body {
+  margin: 0;
+  font-family: 'Great Vibes', cursive, sans-serif;
+  background: linear-gradient(to bottom, #ffe6f0, #e6faff);
+  color: #4a2c2a;
+  text-align: center;
+}
+
+/* Container principal */
+.frame {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Cabeçalho */
+.hero {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+.title {
+  font-size: 60px;
+  margin-bottom: 10px;
+  color: #d63384;
+}
+.subtitle {
+  font-size: 22px;
+  color: #555;
+}
+
+/* Player */
+.player-card {
+  margin-top: 20px;
+}
+.btn-gold {
+  background: #ff8fab;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.btn-gold:hover {
+  background: #ff4d6d;
+}
+
+/* Contador */
+.counter-section {
+  margin-top: 30px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 20px;
+  padding: 20px;
+}
+.counter-grid {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.unit {
+  text-align: center;
+  padding: 15px;
+  border-radius: 15px;
+  background: #ffe5ec;
+  margin: 5px;
+  flex: 1 1 100px;
+}
+.unit span {
+  font-size: 28px;
+  font-weight: bold;
+  color: #c9184a;
+}
+
+/* Mensagem */
+.message-section {
+  margin-top: 30px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 20px;
+  padding: 20px;
+}
+.love-text {
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+/* Galeria */
+.gallery-section {
+  margin-top: 30px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  padding: 20px;
+}
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+.gallery img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+.gallery img:hover {
+  transform: scale(1.05);
+}
+
+/* Rodapé */
+.footer {
+  margin-top: 20px;
+  padding: 10px;
+  font-size: 14px;
+}
 
 /* Lightbox */
 .lightbox {
